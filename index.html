@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple E-commerce Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header, footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+        }
+        .product {
+            width: 200px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            float: left;
+        }
+        .product img {
+            width: 100%;
+        }
+        .search-bar {
+            margin: 10px;
+            padding: 5px;
+            width: 200px;
+        }
+        .cart {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Simple E-commerce Cart</h1>
+    </header>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search...">
+    </div>
+    <div id="products">
+        <div class="product">
+            <img src="product1.jpg" alt="Product 1">
+            <h2>Product 1</h2>
+            <p>$100.00</p>
+            <button onclick="addToCart(1)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="product2.jpg" alt="Product 2">
+            <h2>Product 2</h2>
+            <p>$200.00</p>
+            <button onclick="addToCart(2)">Add to Cart</button>
+        </div>
+        <!-- More products... -->
+    </div>
+    <footer>
+        <h3>Footer</h3>
+    </footer>
+    <div class="cart">
+        <h2>Cart</h2>
+        <p id="cartItems"></p>
+    </div>
+    <script>
+        var cart = [];
+        function addToCart(id) {
+            var product = products.find(p => p.id === id);
+            if (product) {
+                cart.push(product);
+                updateCart();
+            }
+        }
+        function updateCart() {
+            document.getElementById('cartItems').innerText = 'Items: ' + cart.length;
+        }
+        var products = [
+            {id: 1, name: 'Product 1', price: 100.00, image: 'product1.jpg'},
+            {id: 2, name: 'Product 2', price: 200.00, image: 'product2.jpg'},
+            // More products...
+        ];
+        document.getElementById('search').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var productsDiv = document.getElementById('products');
+            productsDiv.innerHTML = '';
+            products.filter(p => p.name.toLowerCase().includes(filter)).forEach(p => {
+                var productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = '<img src="' + p.image + '" alt="' + p.name + '"><h2>' + p.name + '</h2><p>$' + p.price.toFixed(2) + '</p><button onclick="addToCart(' + p.id + ')">Add to Cart</button>';
+                productsDiv.appendChild(productDiv);
+            });
+        });
+    </script>
+</body>
+</html>
